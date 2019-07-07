@@ -1,0 +1,50 @@
+openapi: 3.0.0
+info:
+  title: Ring-Moon Systems OpenAPI
+  description: This is a simple API wrapping the OPUS API of the PDS Ring-Moon Systems
+    node.
+  contact:
+    email: kmichael.aye@gmail.com
+  version: 1.0.0
+servers:
+- url: https://tools.pds-rings.seti.org/opus/api
+  description: Ring-Moon Node OPUS Server
+paths:
+  /metadata_v2/{opus_id}.json:
+    get:
+      description: Get all available, or particular, metadata for a single observation.
+      parameters:
+      - name: opus_id
+        in: path
+        description: valid opus_id (or old ring_obs_id)
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: co-iss-w1866600688
+      - name: cols
+        in: query
+        description: one or more column names
+        required: false
+        style: form
+        explode: false
+        schema:
+          type: array
+          items:
+            type: string
+        examples:
+          oneCol:
+            summary: Example of a single column
+            value: time1
+          multipleCols:
+            summary: Example of multiple columns
+            value: time1,time2
+      responses:
+        200:
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                type: object
+components: {}
